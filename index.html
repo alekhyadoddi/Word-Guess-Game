@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hangman</title>
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+  <link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+
+  <div class="logo">
+    <a href="https://nautdrafter.bitbucket.org">Hangman</a>
+  </div>
+
+  <div class="container">
+    <div class="row" id="container-row">
+      <div class="col-md-8">
+
+        <!-- demons  -->
+        <div class="row image-row">
+
+          <div class="animals">
+
+
+            <iframe width=100% height=100% id="myvideo"
+              src="https://www.youtube.com/embed/kbyktxNRBxs?autoplay=1"></iframe>
+
+          </div>
+        </div>
+
+
+      </div>
+      <div class="col-md-4">
+        <div class="row">
+          <div class="col-md-12">
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <h5>Press any key to get started</h5>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <h5>Wins:<span id="winno">0</span></h5>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <h5>Current word</h5>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <!-- <h5 id = "ties-text">-----------</h5>   -->
+            <h5 id="cguess-text"></h5>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <h5>Number of Lifes remaining:<span id="lifeno">12</span></h5>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <h5>Letters already guessed</h5>
+
+          </div>
+        </div>
+
+        <div class="row" id="bin">
+          <div class="col-md-12">
+            <h5><span id="dustbin"></span></h5>
+
+          </div>
+
+          <!-- text display row -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+
+    var userGuess;
+    var computerGuess;
+    var binContent;
+    var win = 0;
+    var loss = 0;
+    var lifes = 12;
+    var dash;
+    var cguessText;
+    var animals = ["elephant", "monkey", "donkey", "dinousaur", "hippopotamus", "giraffe"];
+
+    var questions = [
+      { q: "The sky is blue.", a: "t" },
+      { q: "There are 365 days in a year.", a: "t" },
+      { q: "There are 42 ounces in a pound.", a: "f" },
+      { q: "The Declaration of Independence was created in 1745.", a: "f" },
+      { q: "Bananas are vegetables.", a: "f" }
+    ];
+    var questionIndex = 0;
+    console.log(questions[questionIndex].q);
+    lifesinit();
+    newword();
+
+
+    function lifesinit() {
+      lifes = 12;
+      document.getElementById("lifeno").textContent = lifes;
+      console.log(lifes);
+    }
+
+    function newword() {
+      dash = "";
+      computerGuess = animals[Math.floor(Math.random() * animals.length)];
+
+      for (var i = 0; i < computerGuess.length; i++) {
+        dash = dash + "_";
+
+      }
+      cguessText = document.getElementById("cguess-text");
+      cguessText.textContent = dash;
+
+    }
+    function resetbin() {
+      binContent = ""
+      document.getElementById("dustbin").textContent = binContent;
+    }
+
+    function resettheme() {
+      console.log("inside theme");
+      if (computerGuess == "elephant") {
+
+        document.getElementById("myvideo").setAttribute("src", "https://www.youtube.com/embed/Og6ykFRAdgA?autoplay=1");
+      }
+      else if (computerGuess == "monkey") {
+        document.getElementById("myvideo").setAttribute("src", "https://www.youtube.com/embed/0j6AZhZFb7A?autoplay=1");
+      }
+      else if (computerGuess == "donkey") {
+        document.getElementById("myvideo").setAttribute("src", "https://www.youtube.com/embed/sTBG6MjtNIs?autoplay=1");
+      }
+      else if (computerGuess == "dinousaur") {
+        document.getElementById("myvideo").setAttribute("src", "https://www.youtube.com/embed/phNab4hX9AY?autoplay=1");
+      }
+      else if (computerGuess == "hippopotamus") {
+        document.getElementById("myvideo").setAttribute("src", "https://www.youtube.com/embed/m5PyZP96QA8?autoplay=1");
+      }
+      else if (computerGuess == "giraffe") {
+        document.getElementById("myvideo").setAttribute("src", "https://www.youtube.com/embed/0EdZZWkcm5Q?autoplay=1");
+      }
+    }
+
+    document.onkeyup = function (event) {
+      if (lifes > 0) {
+        var userGuess = event.key;
+        if (computerGuess.indexOf(userGuess) < 0) {
+          binContent = document.getElementById("dustbin").textContent;
+          if (binContent.indexOf(userGuess) < 0) {
+            document.getElementById("dustbin").textContent = binContent + " " + userGuess;
+            lifes = lifes - 1;
+            document.getElementById("lifeno").textContent = lifes;
+            if (lifes == 0) {
+              resettheme();
+              lifesinit();
+              newword();
+              resetbin();
+
+            }
+          }
+
+
+        }
+        else {
+
+          for (var i = 0; i < computerGuess.length; i++) {
+            if (computerGuess[i] == userGuess) {
+
+
+              dash = dash.substring(0, i) + userGuess + dash.substring(i + 1);
+
+
+              cguessText.textContent = dash;
+
+
+            }
+          }
+          if (dash.indexOf("_") < 0) {
+            win = win + 1;
+            document.getElementById("winno").textContent = win;
+            resettheme();
+            lifesinit();
+            newword();
+            resetbin();
+
+          }
+
+
+        }
+      }
+      else {
+        loss = loss + 1;
+        resettheme();
+        lifesinit();
+        resetbin();
+        newword();
+
+      }
+
+    }
+  </script>
+</body>
+
+</html>
