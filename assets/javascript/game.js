@@ -19,6 +19,9 @@ var game = {
     },
     reveal: function (currentAnimal) {
       return currentAnimal.reveal
+    },
+    sound: function (currentAnimal) {
+      return currentAnimal.sound
     }
   }
   ,
@@ -27,6 +30,7 @@ var game = {
     console.log(value+"inside theme");
     console.log(id+"inside theme");
      document.getElementById(id).setAttribute("src", value);
+     
     //document.getElementById("myimage").setAttribute("src", game.animals.image(computerGuess));
   },
 
@@ -37,6 +41,7 @@ var game = {
     game.settheme("myimage", theme);
     game.settextcontent("lifeno", 12);
     game.getnextword();
+    // game.setsound(playsound);
     game.settextcontent("dustbin", "");
 
 
@@ -51,6 +56,7 @@ var game = {
     computerGuess = game.animals[randx].name;
     themeint = game.animals[randx].image;
     themeaft= game.animals[randx].reveal;
+    playsound=game.animals[randx].sound;
     for (var i = 0; i < computerGuess.length; i++) {
       dash = dash + "_";
 
@@ -61,7 +67,14 @@ var game = {
   revealanimal: function(value){
     console.log("themeaft inside fn"+value);
     game.settheme("myimage",value);
+  
   }
+
+  // setsound: function(value)
+  // {
+  //   document.getElementById('sound').setAttribute("src",value);
+  //   document.getElementById('sound').play(); 
+  // }
 
 
 }
@@ -71,13 +84,15 @@ var game = {
 var elephant = {
   name: "elephant",
   image: "assets/images/elephant-footprint.jpg",
-  reveal: "assets/images/elephant.jpg"
+  reveal: "assets/images/elephant.jpg",
+  sound: "assets/sounds/elephant.mp3"
 }
 
 var monkey = {
   name: "monkey",
   image: "assets/images/monkeyfootprint.jpg",
-  reveal: "assets/images/monkey.jpg"
+  reveal: "assets/images/monkey.jpg",
+  sound: "assets/sounds/monkey.mp3"
 
 }
 
@@ -85,26 +100,31 @@ var donkey = {
   name: "donkey",
   image: "assets/images/donkeyfootprint.png",
   
-  reveal: "assets/images/donkey.jpg"
+  reveal: "assets/images/donkey.jpg",
+
+  sound: "assets/sounds/donkey.mp3"
 }
 
 var hippopotamus = {
   name: "hippopotamus",
   image: "assets/images/hippopotamus-footprint.jpg",
-  reveal: "assets/images/hippo.jpg"
+  reveal: "assets/images/hippo.jpg",
+  sound: "assets/sounds/hippo.mp3"
 }
 
 var dinosaur = {
   name: "dinosaur",
   image: "assets/images/dinosaurfootprint.jpeg",
-  reveal: "assets/images/dinosaur.jpg"
+  reveal: "assets/images/dinosaur.jpg",
+  sound: "assets/sounds/dino.mp3"
 
 }
 
 var giraffe = {
   name: "giraffe",
   image: "assets/images/giraffefootprint.jpg",
-  reveal: "assets/images/giraffe.jpg"
+  reveal: "assets/images/giraffe.jpg",
+  sound: "assets/sounds/giraffe.mp3"
 }
 
 
@@ -124,6 +144,7 @@ game.settextcontent("lifeno", 12);
 // new word
 game.getnextword();
 game.settheme("myimage",themeint);
+
 // console.log(computerGuess);
 
 // console.log("afternextword" + computerGuess);
@@ -164,11 +185,10 @@ document.onkeyup = function (event) {
   console.log(themeaft);
     var userGuess = event.key;//get the key
     if (lifes > 0) {
-      if (event.keyCode == 67) {
-        var audio = new Audio('sound.ogg');
+      
+        var audio = new Audio("assets/sounds/Tiny_Button.mp3");
         audio.play();
-        return false;
-    }
+    
     //check if key exists
     if (computerGuess.indexOf(userGuess) < 0) {
       binContent = document.getElementById("dustbin").textContent;//get the bin content
